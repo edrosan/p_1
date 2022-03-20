@@ -37,14 +37,12 @@ def crear_proceso(PID, tam, lugar):
     return {'pid': PID, 'tam_proceso': tam, 'estado': estado, 'prioridad': prioridad, 'memoria': lugar}
     # return [PID, tam, estado, prioridad, lugar]
 
-
 # Agrega a memoria el proceso
 def agregar_memoria(memoria, posicion_insercion, pid, tam_proceso):
     for i in range(0, tam_proceso):
         memoria[posicion_insercion + i] = pid
 
     return memoria
-
 
 def buscar_tabla (tabla_procesos, prioridad_maxima, memoria_buscar, memoria_mover ):
     pos = -1
@@ -74,8 +72,6 @@ def eliminar_memoria(memoria, pid):
             memoria[indice] = 0;
     return memoria
 
-
-
 def crear_mapa_bits(tam_memoria):
     mapaBits = []
     n = (tam_memoria // 8)
@@ -103,7 +99,9 @@ colores = {
     'amarillo'   : '\x1b[38;5;220m',
     'verde' : '\x1b[48;5;28m',
     'rojo'  : '\x1b[48;5;124m',
-    'default'   : '\x1b[0m'
+    'default'   : '\x1b[0m',
+    'lverde' : '\x1b[38;5;40m',
+    'lrojo'  : '\x1b[38;5;196m',
 }
 
 def print_mapa(mapa_bits):
@@ -147,15 +145,12 @@ def crear_lista_ligada(ram):
         lista.append(['P', [posInicial, posFinal]])
     return lista
 
-def print_lista_color(listaLigada):
-    print()
-    for i in listaLigada:
-        if(i[0]=='H'): 
-            print('[',colores['verde'],i[0],colores['default'],'|',i[1][0],'/',i[1][1],']->', end=' ')
-        else: 
-            print('[',colores['rojo'],i[0],colores['default'],'|',i[1][0],'/',i[1][1],']->', end=' ')
-    print('\n')
-
+def print_lista(lista):
+    print("")
+    for nodo in lista:
+        print(f"[{nodo[0]}:{nodo[1]}| {nodo[2]}-{nodo[3]}]->", end=" ")
+    print("")
+    print("")
 
 def lista (ram):
     contHueco = 0
@@ -207,7 +202,6 @@ def lista (ram):
         lista.append(["P",tam_proceso,posInicial,posFinal])
         contProce = 0
     return lista 
-
 
 def lista_nombre (ram):
     contHueco = 0
@@ -267,7 +261,6 @@ def eliminar_tabla(tabla_procesos, pid):
             tabla_procesos.remove(proceso)
     return tabla_procesos
 
-
 def buscar_primero(memoria):
     for proceso in memoria:
         if proceso != 0:
@@ -281,9 +274,6 @@ def buscar_p_tabla( tabla_procesos, pid):
 
     return -1
 
-
-
-
 def compactar(memoria, memoria_auxiliar, tabla_procesos):
     pid_auxiliar = -1
     for proceso in memoria:
@@ -293,3 +283,31 @@ def compactar(memoria, memoria_auxiliar, tabla_procesos):
             posicion_insercion = espacio_memoria (memoria_auxiliar, proceso_auxiliar['tam_proceso'])
             memoria_auxiliar = agregar_memoria(memoria_auxiliar, posicion_insercion, pid_auxiliar, proceso_auxiliar['tam_proceso'])
     return memoria_auxiliar
+
+
+def print_lista_color(lista, tabla_procesos):
+    print("")
+    for nodo in lista:
+        if nodo[0] != 'H':
+            pid = nodo[0]
+            proceso_auxiliar = buscar_p_tabla( tabla_procesos, pid)
+            prioridad = proceso_auxiliar['prioridad']
+            if prioridad == 1:
+                print(f"[{colores['lverde']}{pid}{colores['default']}:{nodo[1]}| {nodo[2]}-{nodo[3]}]->", end=" ")
+            elif prioridad == 2:
+                print(f"[{colores['amarillo']}{pid}{colores['default']}:{nodo[1]}| {nodo[2]}-{nodo[3]}]->", end=" ")
+            elif prioridad == 3:
+                print(f"[{colores['lrojo']}{pid}{colores['default']}:{nodo[1]}| {nodo[2]}-{nodo[3]}]->", end=" ")
+        elif nodo[0] == 'H':
+            print(f"[{nodo[0]}:{nodo[1]}| {nodo[2]}-{nodo[3]}]->", end=" ")
+
+    print("")
+    print("")
+
+def print_procesos(tabla_procesos):
+    print("\tPID\tEstado\tMemoria")
+
+    for proceso in tabla_procesos:
+        print(f"\t{proceso['pid']}\t  {proceso['estado']}\t{proceso['memoria']}")
+
+    print("")

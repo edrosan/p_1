@@ -13,7 +13,6 @@ tabla_procesos = []
 
 pid = 1709
 
-
 while(run):
     print("")
     print("1.Crear proceso")
@@ -22,6 +21,7 @@ while(run):
     print("4.Representacion")
     print("5.Salir")
     respuesta = int(input("Ingrese una opcion: "))
+
 #*---------------------------------------------------------------------------------------------------------------
     if respuesta == 1:# Crear proceso
         tam_proceso = int(input('Ingrese el tamaño del proceso: '))
@@ -308,7 +308,7 @@ while(run):
 
 #*---------------------------------------------------------------------------------------------------------------
 
-    elif respuesta == 3:
+    elif respuesta == 3:# Compactacion
         if len(tabla_procesos)  != 0:
             print("")
             print("1.Compactar RAM")
@@ -335,14 +335,13 @@ while(run):
         else:
             print("No hay procesos")
 
-
-
 #*---------------------------------------------------------------------------------------------------------------
     elif respuesta == 4:# Representancion
         print("")
         print("1.Mapa de bits")
         print("2.Lista de huecos")
         print("3.RAM y MV")
+        print("4.Mostrar prioridad de procesos")
         respuesta = int(input("Ingrese una opcion: "))
 
         if respuesta == 1:
@@ -360,18 +359,27 @@ while(run):
             if respuesta == 1:
                 print("")
                 lista_huecos = lista(ram)
-                print(lista_huecos)
+                print_lista(lista_huecos)
             elif respuesta == 2:
                 print("")
                 lista_nombres = lista_nombre(ram)
-                print(lista_nombres)
+                print_lista_color(lista_nombres, tabla_procesos)
         
         elif respuesta == 3:
             print("")
             print("RAM:\n",ram)
             print("MV:\n", mv)
         
-        print("------------------------------------------------------------------------------------------")
+        elif respuesta == 4:
+            if len(tabla_procesos) != 0:
+                print("--------------------------------------------")
+                print_procesos(tabla_procesos)
+                print("--------------------------------------------")
+            else:
+                print("No hay procesos que mostrar")
+
+
+        print("")
     
 #*---------------------------------------------------------------------------------------------------------------
     elif( respuesta == 5):# Salir
