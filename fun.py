@@ -12,7 +12,7 @@ def espacio_memoria (memoria, tam):
             contador += 1
             if (posicion == -1): posicion = pos
         elif (proceso != 0):
-            contador = 0;
+            contador = 0
             posicion = -1
         if ( contador == tam ): return posicion
     
@@ -69,7 +69,7 @@ def buscar_tabla (tabla_procesos, prioridad_maxima, memoria_buscar, memoria_move
 def eliminar_memoria(memoria, pid):
     for (indice, proceso) in enumerate(memoria):
         if proceso == pid:
-            memoria[indice] = 0;
+            memoria[indice] = 0
     return memoria
 
 def crear_mapa_bits(tam_memoria):

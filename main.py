@@ -97,7 +97,7 @@ while(run):
                         elif proceso_mover == -1:# No hay procesos para mover de RAM a MV
                             print(f"Ya no hay mas procesos a mover de RAM a MV")
                             print(f"1.Eliminar nuevo proceso")
-                            print(f"Interntar ingresar nuevo proceso a MV como 'w'")
+                            print(f"2.Interntar ingresar nuevo proceso a MV como 'w'")
                             respuesta = int(input("Ingrese una opcion: "))
                             if (respuesta == 1):
                                 print("Proceso eliminado")
@@ -106,6 +106,7 @@ while(run):
                             elif respuesta == 2:
                                 proceso_creado['estado'] = 'w' 
                                 proceso_creado['prioridad'] = 1 
+                                proceso_creado['memoria'] = 'mv'
                                 posicion_insercion = espacio_memoria(mv, proceso_creado['tam_proceso'])
                                 if posicion_insercion != -1:
                                     mv = agregar_memoria(mv, posicion_insercion, proceso_creado['pid'], proceso_creado['tam_proceso'])
@@ -183,7 +184,7 @@ while(run):
                                         print("Finalice manualmente algun proceso")
                                         pid -= 1
                                         try_add = False
-                        elif proceso_eliminar == 1:
+                        elif proceso_eliminar == -1:
                             print("No hay procesos w a eliminar")
                             print("Finalice manualmente algun proceso")
                             pid -= 1
@@ -372,6 +373,9 @@ while(run):
         
         elif respuesta == 4:
             if len(tabla_procesos) != 0:
+                print("")
+                print("RAM:\n",ram)
+                print("MV:\n", mv)
                 print("--------------------------------------------")
                 print_procesos(tabla_procesos)
                 print("--------------------------------------------")
